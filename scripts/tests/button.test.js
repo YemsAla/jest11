@@ -4,14 +4,25 @@
 
 const buttonClick = require("../button");
 
-beforeEach(() => {
-    document.body.innerHTML = "<p id='par'></p>";
+beforeAll(() => {
+    let fs = require("fs");
+    let fileContents = fs.readFileSync("index.html", "utf-8");
+    document.open();
+    document.write(fileContents);
+    document.close();
 });
 
 describe("DOM tests", () => {
-    test("Expects p content to change", () => {
+    test("Expects content to change", () => {
         buttonClick();
         expect(document.getElementById("par")
-            .innerHTML).toEqual("You Clicked");
+            .innerHTML).toBe("You Clicked");
     });
+    test("h1 should exist", () => {
+        expect(document.getElementsByTagName("h1").length).toBe(1);
+    });
+    test("Expects instruction modal", () => {
+       expect(document.getElementById("instruction-button")
+        .length).toBe(1);
+    })
 });
